@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../auth/login/login.service';
+import { AuthService } from '../auth/login.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-login',
@@ -8,13 +10,22 @@ import { AuthService } from '../auth/login/login.service';
   template: `<button (click)="login()">Login</button>`
 })
 export class LoginComponent {
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService, private router: Router) {}
 
     login() {
-      this.authService.loginWithGoogle().then((result) => {
+      this.authService.login().then((result: any) => {
+        this.router.navigate(['/flight-details']);
         console.log('User logged in:', result);
-      }).catch((error) => {
+      }).catch((error: any) => {
         console.log('Login failed:', error);
+      });
+    }
+
+    logout() {
+      this.authService.logout().then(() => {
+        this.router.navigate(['/login']);
+      }).catch((error) => {
+        console.error('Logout failed:', error);
       });
     }
 }

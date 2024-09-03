@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule, NgForm } from '@angular/forms';
+import { AuthService } from '../auth/login.service';
 
 @Component({
   selector: 'app-flight-details',
@@ -11,12 +12,23 @@ import { FormsModule, NgForm } from '@angular/forms';
   styleUrls: ['./flight-details.component.css']
 })
 export class FlightDetailsComponent {
+  isLoggedIn: boolean = false;
   submissions: any[] = [];
   successMessage: string = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private authService: AuthService, private http: HttpClient) {
+    this.authService.isAuthenticated().subscribe((loggedIn: boolean) => {
+      this.isLoggedIn = loggedIn;
+      this.submissions = [];
+    });
+  }
 
-  onSubmit(flightForm: NgForm) { // Ensure flightForm is passed as an argument
+  onSubmit(flightForm: NgForm) {
+    if (!this.isLoggedIn) {
+      this.successMessage = 'You must be logged in to submit the form.';
+      return;
+    }
+
     const url = 'https://us-central1-crm-sdk.cloudfunctions.net/flightInfoChallenge';
 
     const headers = new HttpHeaders({
@@ -32,7 +44,7 @@ export class FlightDetailsComponent {
       flightNumber: flightForm.value.flightNumber,
       numOfGuests: flightForm.value.numOfGuests,
       comments: flightForm.value.comments || ''
-    }; 
+    };
 
     this.http.post(url, payload, { headers })
       .subscribe({

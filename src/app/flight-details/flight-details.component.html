@@ -1,38 +1,45 @@
-<form (ngSubmit)="onSubmit(flightForm)" #flightForm="ngForm">
+<div *ngIf="isLoggedIn"; else notLoggedIn>
 
-    <label for="airline">Airline</label>
-    <input type="text" id="airline" name="airline" ngModel required>
+    <form (ngSubmit)="onSubmit(flightForm)" #flightForm="ngForm">
 
-    <label for="arrivalDate">Arrival Date</label>
-    <input type="date" id="arrivalDate" name="arrivalDate" ngModel required>
+        <label for="airline">Airline</label>
+        <input type="text" id="airline" name="airline" ngModel required>
 
-    <label for="arrivalTime">Arrival Time</label>
-    <input type="time" id="arrivalTime" name="arrivalTime" ngModel required>
+        <label for="arrivalDate">Arrival Date</label>
+        <input type="date" id="arrivalDate" name="arrivalDate" ngModel required>
 
-    <label for="flightNumber">Flight Number</label>
-    <input type="text" id="flightNumber" name="flightNumber" ngModel required>
+        <label for="arrivalTime">Arrival Time</label>
+        <input type="time" id="arrivalTime" name="arrivalTime" ngModel required>
 
-    <label for="numOfGuests">Number of Guests</label>
-    <input type="number" id="numOfGuests" name="numOfGuests" ngModel required>
+        <label for="flightNumber">Flight Number</label>
+        <input type="text" id="flightNumber" name="flightNumber" ngModel required>
 
-    <label for="comments">Comments (optional)</label>
-    <textarea id="comments" name="comments" ngModel></textarea>
+        <label for="numOfGuests">Number of Guests</label>
+        <input type="number" id="numOfGuests" name="numOfGuests" ngModel required>
 
-    <button type="submit">Submit</button>
+        <label for="comments">Comments (optional)</label>
+        <textarea id="comments" name="comments" ngModel></textarea>
 
-</form>
+        <button type="submit">Submit</button>
 
-<p *ngIf="successMessage">{{ successMessage }}</p>
+    </form>
 
-<h2>List of Flights</h2>
-<ul>
-    <li *ngFor="let submission of submissions">
-        Airline: {{ submission.airline }} <br>
-        Arrival Date: {{ submission.arrivalDate }} <br>
-        Arrival Time: {{ submission.arrivalTime }} <br>
-        Flight Number: {{ submission.flightNumber }} <br>
-        Guests: {{ submission.numOfGuests }} <br>
-        <!-- <button (click)="deleteSubmission(submission)">Delete</button> -->
-        Comments: {{ submission.comments || 'No comments'}}
-    </li>
-</ul>
+    <p *ngIf="successMessage">{{ successMessage }}</p>
+
+    <h2>List of Flights</h2>
+    <ul>
+        <li *ngFor="let submission of submissions">
+            Airline: {{ submission.airline }} <br>
+            Arrival Date: {{ submission.arrivalDate }} <br>
+            Arrival Time: {{ submission.arrivalTime }} <br>
+            Flight Number: {{ submission.flightNumber }} <br>
+            Guests: {{ submission.numOfGuests }} <br>
+            <!-- <button (click)="deleteSubmission(submission)">Delete</button> -->
+            Comments: {{ submission.comments || 'No comments'}}
+        </li>
+    </ul>
+</div>
+
+<ng-template #notLoggedIn>
+    <p>You must be loggd in to access this form.</p>
+</ng-template>
