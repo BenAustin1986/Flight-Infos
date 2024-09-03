@@ -13,5 +13,5 @@ import { RouterOutlet } from '@angular/router';
   styles: [],
 })
 export class AppComponent {
-  title = 'flight-infos';
+  title = 'Flight Infos';
 }

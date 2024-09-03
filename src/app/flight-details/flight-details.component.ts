@@ -1,0 +1,46 @@
+import { Component } from '@angular/core';
+import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
+import { FormsModule, NgForm } from '@angular/forms';
+
+@Component({
+  selector: 'app-flight-details',
+  standalone: true,
+  imports: [FormsModule, HttpClientModule],
+  templateUrl: './flight-details.component.html',
+  styleUrls: ['./flight-details.component.css']
+})
+export class FlightDetailsComponent {
+
+  constructor(private http: HttpClient) {}
+
+  onSubmit(flightForm: NgForm) { // Ensure flightForm is passed as an argument
+    const url = 'https://us-central1-crm-sdk.cloudfunctions.net/flightInfoChallenge';
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'token': 'WW91IG11c3QgYmUgdGhlIGN1cmlvdXMgdHlwZS4gIEJyaW5nIHRoaXMgdXAgYXQgdGhlIGludGVydmlldyBmb3IgYm9udXMgcG9pbnRzICEh',
+      'candidate': 'Ben Austin'
+    });
+
+    const payload = {
+      airline: flightForm.value.airline,
+      arrivalDate: flightForm.value.arrivalDate,
+      arrivalTime: flightForm.value.arrivalTime,
+      flightNumber: flightForm.value.flightNumber,
+      numOfGuests: flightForm.value.numOfGuests,
+      comments: flightForm.value.comments || ''
+    };
+
+    this.http.post(url, payload, { headers })
+      .subscribe({
+        next: (response) => {
+          alert('Submission successful!');
+          console.log('Success:', response);
+        },
+        error: (error) => {
+          alert('Submission failed!');
+          console.error('Error:', error);
+        }
+      });
+  }
+}
