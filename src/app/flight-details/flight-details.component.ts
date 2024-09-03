@@ -1,15 +1,18 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-flight-details',
   standalone: true,
-  imports: [FormsModule, HttpClientModule],
+  imports: [FormsModule, HttpClientModule, CommonModule],
   templateUrl: './flight-details.component.html',
   styleUrls: ['./flight-details.component.css']
 })
 export class FlightDetailsComponent {
+  submissions: any[] = [];
+  successMessage: string = '';
 
   constructor(private http: HttpClient) {}
 
@@ -29,12 +32,17 @@ export class FlightDetailsComponent {
       flightNumber: flightForm.value.flightNumber,
       numOfGuests: flightForm.value.numOfGuests,
       comments: flightForm.value.comments || ''
-    };
+    }; 
 
     this.http.post(url, payload, { headers })
       .subscribe({
         next: (response) => {
-          alert('Submission successful!');
+          this.submissions.push(payload);
+          this.successMessage = 'Your flight details have been saved!';
+          setTimeout(() => {
+            this.successMessage = ''
+          }, 3000);
+          flightForm.reset();
           console.log('Success:', response);
         },
         error: (error) => {

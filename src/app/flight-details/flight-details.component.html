@@ -21,3 +21,18 @@
     <button type="submit">Submit</button>
 
 </form>
+
+<p *ngIf="successMessage">{{ successMessage }}</p>
+
+<h2>List of Flights</h2>
+<ul>
+    <li *ngFor="let submission of submissions">
+        Airline: {{ submission.airline }} <br>
+        Arrival Date: {{ submission.arrivalDate }} <br>
+        Arrival Time: {{ submission.arrivalTime }} <br>
+        Flight Number: {{ submission.flightNumber }} <br>
+        Guests: {{ submission.numOfGuests }} <br>
+        <!-- <button (click)="deleteSubmission(submission)">Delete</button> -->
+        Comments: {{ submission.comments || 'No comments'}}
+    </li>
+</ul>
