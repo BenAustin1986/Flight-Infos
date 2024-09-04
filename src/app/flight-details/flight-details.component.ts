@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule, NgForm } from '@angular/forms';
-import { AuthService } from '../auth/login.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-flight-details',
@@ -17,7 +17,7 @@ export class FlightDetailsComponent {
   successMessage: string = '';
 
   constructor(private authService: AuthService, private http: HttpClient) {
-    this.authService.isAuthenticated().subscribe((loggedIn: boolean) => {
+    this.authService.isLoggedIn().subscribe((loggedIn: boolean) => {
       this.isLoggedIn = loggedIn;
       this.submissions = [];
     });

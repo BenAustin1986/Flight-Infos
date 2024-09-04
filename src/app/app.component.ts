@@ -1,17 +1,18 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [NavbarComponent, RouterOutlet],
   template: `
-    <h1>Welcome to {{title}}!</h1>
-
+    <!-- <h1>Welcome to {{title}}!</h1> -->
+    <app-navbar></app-navbar>
     <router-outlet />
   `,
   styles: [],
 })
 export class AppComponent {
-  title = 'Flight Infos';
+  // title = 'Flight Infos';
 }
