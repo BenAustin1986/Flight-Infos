@@ -15,11 +15,13 @@ import { NavbarComponent } from '../navbar/navbar.component';
       <form (ngSubmit)="login()">
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" [(ngModel)]="email" name="email" required class="form-control" placeholder="Enter your email">
+          <input type="email" id="email" [(ngModel)]="email" name="email" required
+          class="form-control" placeholder="Enter your email">
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" id="password" [(ngModel)]="password" name="password" required class="form-control" placeholder="Enter your password">
+          <input type="password" id="password" [(ngModel)]="password" name="password" required
+          class="form-control" placeholder="Enter your password">
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
       </form>
@@ -52,7 +54,7 @@ export class LoginComponent {
       return;
     }
 
-    this.authService.login(this.email, this.password).then((result: any) => {
+    this.authService.login(this.email, this.password).then((result) => {
       console.log('Login successful', result);
       this.router.navigate(['/flight-details']);
     }).catch((error: any) => {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -11,16 +11,24 @@ import { AuthService } from '../auth/auth.service';
   templateUrl: './flight-details.component.html',
   styleUrls: ['./flight-details.component.css']
 })
-export class FlightDetailsComponent {
+export class FlightDetailsComponent implements OnInit {
   isLoggedIn: boolean = false;
   submissions: any[] = [];
   successMessage: string = '';
+  formData: any = {};
 
   constructor(private authService: AuthService, private http: HttpClient) {
     this.authService.isLoggedIn().subscribe((loggedIn: boolean) => {
       this.isLoggedIn = loggedIn;
       this.submissions = [];
     });
+  }
+
+  ngOnInit() {
+    const savedData = localStorage.getItem('submissions');
+    if (savedData) {
+      this.formData = JSON.parse(savedData);
+    }
   }
 
   onSubmit(flightForm: NgForm) {
@@ -55,6 +63,7 @@ export class FlightDetailsComponent {
             this.successMessage = ''
           }, 3000);
           flightForm.reset();
+          localStorage.removeItem('submissions');
           console.log('Success:', response);
         },
         error: (error) => {
@@ -62,5 +71,9 @@ export class FlightDetailsComponent {
           console.error('Error:', error);
         }
       });
+  }
+
+  onFormChange() {
+    localStorage.setItem('submissions', JSON.stringify(this.submissions));
   }
 }

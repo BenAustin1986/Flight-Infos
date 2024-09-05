@@ -1,29 +1,33 @@
 <!-- <div *ngIf="isLoggedIn"; else notLoggedIn> -->
-    
+
 <div class="container">
-    <form (ngSubmit)="onSubmit(flightForm)" #flightForm="ngForm">
-
-        <label for="airline">Airline</label>
-        <input type="text" id="airline" name="airline" ngModel required>
-
-        <label for="arrivalDate">Arrival Date</label>
-        <input type="date" id="arrivalDate" name="arrivalDate" ngModel required>
-
-        <label for="arrivalTime">Arrival Time</label>
-        <input type="time" id="arrivalTime" name="arrivalTime" ngModel required>
-
-        <label for="flightNumber">Flight Number</label>
-        <input type="text" id="flightNumber" name="flightNumber" ngModel required>
-
-        <label for="numOfGuests">Number of Guests</label>
-        <input type="number" id="numOfGuests" name="numOfGuests" ngModel required>
-
-        <label for="comments">Comments (optional)</label>
-        <textarea id="comments" name="comments" ngModel></textarea>
-
+    <form #flightForm="ngForm" (ngSubmit)="onSubmit(flightForm)" (ngModelChange)="onFormChange()">
+        <div>
+          <label for="airline">Airline:</label>
+          <input type="text" name="airline" [(ngModel)]="formData.airline" required>
+        </div>
+        <div>
+          <label for="arrivalDate">Arrival Date:</label>
+          <input type="date" name="arrivalDate" [(ngModel)]="formData.arrivalDate" required>
+        </div>
+        <div>
+          <label for="arrivalTime">Arrival Time:</label>
+          <input type="time" name="arrivalTime" [(ngModel)]="formData.arrivalTime" required>
+        </div>
+        <div>
+          <label for="flightNumber">Flight Number:</label>
+          <input type="text" name="flightNumber" [(ngModel)]="formData.flightNumber" required>
+        </div>
+        <div>
+          <label for="numOfGuests">Number of Guests:</label>
+          <input type="number" name="numOfGuests" [(ngModel)]="formData.numOfGuests" required>
+        </div>
+        <div>
+          <label for="comments">Comments:</label>
+          <textarea name="comments" [(ngModel)]="formData.comments"></textarea>
+        </div>
         <button type="submit">Submit</button>
-
-    </form>
+      </form>
 
     <p *ngIf="successMessage">{{ successMessage }}</p>
 

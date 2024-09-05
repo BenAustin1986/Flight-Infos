@@ -1,24 +1,34 @@
 // import { inject } from '@angular/core';
-// import { Auth, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
+import { signInWithEmailAndPassword } from '@angular/fire/auth';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import firebase from 'firebase/compat/app';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import firebase from '@firebase/app';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
 
-    constructor(private afAuth: AngularFireAuth) {}
+    constructor(private afAuth: AngularFireAuth) {
+        this.setPersistence();
+    }
 
-    signup(email: string, password: string) {
+    async setPersistence() {
+        try {
+            await this.afAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        } catch (error) {
+            console.error('Error setting persistence:', error);
+        }
+    }
+
+    signup(email: string, password: string): Promise<any> {
         return this.afAuth.createUserWithEmailAndPassword(email, password);
     }
 
     login(email: string, password: string): Promise<any> {
-        return this.afAuth.signInWithEmailAndPassword('email', 'password');
+        return this.afAuth.signInWithEmailAndPassword(email, password);
     }
 
     logout() {

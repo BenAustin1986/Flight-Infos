@@ -15,16 +15,28 @@ import { FormsModule } from '@angular/forms';  // Import FormsModule for ngModel
       <form (ngSubmit)="signup()">
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" [(ngModel)]="email" name="email" required class="form-control" placeholder="Enter your email">
+          <input type="email" id="email" [(ngModel)]="email" name="email" required
+          class="form-control" placeholder="Enter your email">
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" id="password" [(ngModel)]="password" name="password" required class="form-control" placeholder="Enter your password">
+          <input type="password" id="password" [(ngModel)]="password" name="password" required
+          class="form-control" placeholder="Enter your password">
         </div>
         <button type="submit" class="btn btn-primary">Signup</button>
       </form>
     </div>
-  `
+  `,
+  styles: [`
+    .signup-container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+  `]
 })
 export class SignupComponent {
 
