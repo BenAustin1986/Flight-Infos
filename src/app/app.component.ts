@@ -7,12 +7,11 @@ import { NavbarComponent } from './navbar/navbar.component';
   standalone: true,
   imports: [NavbarComponent, RouterOutlet],
   template: `
-    <!-- <h1>Welcome to {{title}}!</h1> -->
-    <app-navbar></app-navbar>
+    <h1>Welcome to {{title}}!</h1>
     <router-outlet />
   `,
   styles: [],
 })
 export class AppComponent {
-  // title = 'Flight Infos';
+  title = 'Flight Infos';
 }
