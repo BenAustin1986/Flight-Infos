@@ -9,7 +9,6 @@ import { NavbarComponent } from '../navbar/navbar.component';
   standalone: true,
   imports: [FormsModule, NavbarComponent],
   template: `
-    <app-navbar></app-navbar>
 
     <div class="login-container">
       <h2>Login</h2>
@@ -47,7 +46,7 @@ export class LoginComponent {
   login() {
     console.log('Email:', this.email);
     console.log('Password:', this.password);
-    
+
     if (!this.email || !this.password) {
       console.error('Email or password is missing.');
       return;

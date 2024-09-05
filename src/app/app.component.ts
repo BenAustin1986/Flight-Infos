@@ -7,7 +7,8 @@ import { NavbarComponent } from './navbar/navbar.component';
   standalone: true,
   imports: [NavbarComponent, RouterOutlet],
   template: `
-    <h1>Welcome to {{title}}!</h1>
+  <h1>Welcome to {{title}}!</h1>
+    <app-navbar></app-navbar>
     <router-outlet />
   `,
   styles: [],
