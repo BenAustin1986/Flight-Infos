@@ -16,15 +16,12 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean {
-    // Define public routes
     const publicRoutes = ['/login', '/signup'];
 
-    // Allow access if the route is public
     if (publicRoutes.includes(state.url)) {
       return true;
     }
 
-    // Check if the user is logged in
     return this.authService.isLoggedIn().pipe(
       take(1),
       map(user => {

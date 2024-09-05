@@ -1,5 +1,5 @@
-<div *ngIf="isLoggedIn"; else notLoggedIn>
-
+<!-- <div *ngIf="isLoggedIn"; else notLoggedIn> -->
+<div class="container">
     <form (ngSubmit)="onSubmit(flightForm)" #flightForm="ngForm">
 
         <label for="airline">Airline</label>
@@ -41,5 +41,5 @@
 </div>
 
 <ng-template #notLoggedIn>
-    <p>You must be loggd in to access this form.</p>
+    <p>You must be logged in to access this form.</p>
 </ng-template>

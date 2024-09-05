@@ -45,6 +45,9 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   login() {
+    console.log('Email:', this.email);
+    console.log('Password:', this.password);
+    
     if (!this.email || !this.password) {
       console.error('Email or password is missing.');
       return;
