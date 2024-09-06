@@ -15,28 +15,20 @@ export class FlightDetailsComponent implements OnInit {
   isLoggedIn: boolean = false;
   submissions: any[] = [];
   successMessage: string = '';
+  editingIndex: number | null = null;
   formData: any = {};
-  showModal: boolean = false;
-
 
   constructor(private authService: AuthService, private http: HttpClient) {
     this.authService.isLoggedIn().subscribe((loggedIn: boolean) => {
       this.isLoggedIn = loggedIn;
-      this.submissions = [];
     });
   }
 
   ngOnInit() {
-    if (typeof window !== 'undefined') {
-      const savedData = localStorage.getItem('submissions');
-      if (savedData) {
-        this.formData = JSON.parse(savedData);
-      }
+    const savedData = localStorage.getItem('submissions');
+    if (savedData) {
+      this.submissions = JSON.parse(savedData);
     }
-    // const savedData = localStorage.getItem('submissions');
-    // if (savedData) {
-    //   this.formData = JSON.parse(savedData);
-    // }
   }
 
   onSubmit(flightForm: NgForm) {
@@ -46,7 +38,6 @@ export class FlightDetailsComponent implements OnInit {
     }
 
     const url = 'https://us-central1-crm-sdk.cloudfunctions.net/flightInfoChallenge';
-
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'token': 'WW91IG11c3QgYmUgdGhlIGN1cmlvdXMgdHlwZS4gIEJyaW5nIHRoaXMgdXAgYXQgdGhlIGludGVydmlldyBmb3IgYm9udXMgcG9pbnRzICEh',
@@ -62,21 +53,57 @@ export class FlightDetailsComponent implements OnInit {
       comments: flightForm.value.comments || ''
     };
 
-    this.http.post(url, payload, { headers })
-      .subscribe({
-        next: (response) => {
-          this.submissions.push(payload);
-          this.successMessage = 'Your flight details have been saved!';
+    if (this.editingIndex !== null) {
+      this.submissions[this.editingIndex] = payload;
+      this.editingIndex = null;
+      this.successMessage = 'Flight details updated successfully!';
 
-          flightForm.reset();
-          localStorage.removeItem('submissions');
-          console.log('Success:', response);
-        },
-        error: (error) => {
-          alert('Submission failed!');
-          console.error('Error:', error);
-        }
-      });
+      setTimeout(() => {
+        this.successMessage = '';
+      }, 3000);
+    } else {
+      this.submissions.push(payload);
+      this.successMessage = 'Your flight details have been saved!';
+
+      setTimeout(() => {
+        this.successMessage = '';
+      }, 3000);
+    }
+
+    this.saveSubmissions();
+
+    flightForm.reset();
+  }
+
+  saveSubmissions() {
+    localStorage.setItem('submissions', JSON.stringify(this.submissions));
+  }
+
+  onEdit(index: number) {
+    this.editingIndex = index;
+    const submission = this.submissions[index];
+
+    this.formData = {
+      airline: submission.airline,
+      arrivalDate: submission.arrivalDate,
+      arrivalTime: submission.arrivalTime,
+      flightNumber: submission.flightNumber,
+      numOfGuests: submission.numOfGuests,
+      comments: submission.comments
+    };
+  }
+
+  onDelete(index: number) {
+    const confirmed = confirm('Are you sure you want to delete this flight information?');
+    if (confirmed) {
+      this.submissions.splice(index, 1);
+      this.saveSubmissions();
+      this.successMessage = 'Flight details deleted successfully!';
+
+      setTimeout(() => {
+        this.successMessage = '';
+      }, 3000);
+    }
   }
 
   onFormChange() {
