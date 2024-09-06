@@ -15,11 +15,18 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent {
+  isLoggedIn$: Observable<boolean>;
 
   email: string = '';
   password: string = '';
 
-  constructor(private authService: AuthService, private router: Router, private cd: ChangeDetectorRef) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private cd: ChangeDetectorRef
+  ) {
+    this.isLoggedIn$ = this.authService.isLoggedIn();
+  }
 
   login() {
     if (!this.email || !this.password) {

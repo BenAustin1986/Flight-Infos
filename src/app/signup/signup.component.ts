@@ -1,61 +1,45 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';  // Import FormsModule for ngModel
+import { FormsModule } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 
 
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [FormsModule],  // Add FormsModule for ngModel to work
-  template: `
-    <div class="signup-container">
-      <h2>Signup</h2>
-      <form (ngSubmit)="signup()">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" [(ngModel)]="email" name="email" required
-          class="form-control" placeholder="Enter your email">
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" [(ngModel)]="password" name="password" required
-          class="form-control" placeholder="Enter your password">
-        </div>
-        <button type="submit" class="btn btn-primary">Signup</button>
-      </form>
-    </div>
-  `,
-  styles: [`
-    .signup-container {
-      max-width: 400px;
-      margin: 0 auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #f9f9f9;
-    }
-  `]
+  imports: [FormsModule],
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent {
-
   email: string = '';
   password: string = '';
+  errorMessage: string = '';
+  successMessage: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
   signup() {
     if (!this.email || !this.password) {
-      console.error('Email or password is missing.');
+      this.errorMessage = ('Email or password is missing.');
       return;
     }
 
-    this.authService.signup(this.email, this.password).then((result: any)) => {
+    this.authService.signup(this.email, this.password)
+    .then((result: any)) => {
+      this.successMessage = 'Signup successful! You can now log in.';
       console.log('Signup successful', result);
       this.router.navigate(['/login']);
     }).catch((error: any) => {
+      this.errorMessage = error.message || 'Signup failed. Please try again.';
       console.error('Signup failed:', error);
     });
+
+    setTimeout(() => {
+      this.successMessage = '';
+      this.errorMessage = '';
+    }, 3000);
   }
 }

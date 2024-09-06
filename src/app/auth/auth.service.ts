@@ -34,11 +34,27 @@ export class AuthService {
     }
 
     signup(email: string, password: string): Promise<any> {
-        return this.afAuth.createUserWithEmailAndPassword(email, password);
+        return this.afAuth.createUserWithEmailAndPassword(email, password)
+            .then((result: any) => {
+                console.log('User signed up successfully:', result);
+                return result;
+            })
+            .catch(error => {
+                console.error('Signup failed:', error);
+                throw error;
+            });
     }
 
     login(email: string, password: string): Promise<any> {
-        return this.afAuth.signInWithEmailAndPassword(email, password);
+        return this.afAuth.signInWithEmailAndPassword(email, password)
+            .then(result => {
+                console.log('User logged in successfully:', result);
+                return result;
+            })
+            .catch(error => {
+                console.error('Login failed:', error);
+                throw error;
+            });
     }
 
     logout() {
