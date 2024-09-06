@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-navbar',
@@ -12,33 +13,6 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
-  template: `
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Flight Infos</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item" *ngIf="!(isLoggedIn() | async)">
-            <a class="nav-link" (click)="login()">Login</a>
-          </li>
-          <li class="nav-item" *ngIf="isLoggedIn() | async">
-            <a class="nav-link" (click)="logout()">Logout</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/flight-details">Flight Details</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  `,
-  styles: [`
-    .navbar {
-      margin-bottom: 20px;
-    }
-    `]
 })
 export class NavbarComponent {
 
@@ -46,10 +20,6 @@ export class NavbarComponent {
   password: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
-
-  isLoggedIn(): Observable<boolean> {
-    return this.authService.isLoggedIn();
-  }
 
   login() {
     if (!this.email || !this.password) {
@@ -73,4 +43,8 @@ export class NavbarComponent {
       console.log('Logout failed:', error);
     });
   }
+
+  isLoggedIn(): Observable<boolean> {
+    return this.authService.isLoggedIn();
+    }
 }

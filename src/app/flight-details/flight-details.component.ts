@@ -16,6 +16,8 @@ export class FlightDetailsComponent implements OnInit {
   submissions: any[] = [];
   successMessage: string = '';
   formData: any = {};
+  showModal: boolean = false;
+
 
   constructor(private authService: AuthService, private http: HttpClient) {
     this.authService.isLoggedIn().subscribe((loggedIn: boolean) => {
@@ -25,10 +27,16 @@ export class FlightDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    const savedData = localStorage.getItem('submissions');
-    if (savedData) {
-      this.formData = JSON.parse(savedData);
+    if (typeof window !== 'undefined') {
+      const savedData = localStorage.getItem('submissions');
+      if (savedData) {
+        this.formData = JSON.parse(savedData);
+      }
     }
+    // const savedData = localStorage.getItem('submissions');
+    // if (savedData) {
+    //   this.formData = JSON.parse(savedData);
+    // }
   }
 
   onSubmit(flightForm: NgForm) {
@@ -59,9 +67,7 @@ export class FlightDetailsComponent implements OnInit {
         next: (response) => {
           this.submissions.push(payload);
           this.successMessage = 'Your flight details have been saved!';
-          setTimeout(() => {
-            this.successMessage = ''
-          }, 3000);
+
           flightForm.reset();
           localStorage.removeItem('submissions');
           console.log('Success:', response);
