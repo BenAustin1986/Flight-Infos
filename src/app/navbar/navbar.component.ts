@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -19,11 +19,12 @@ export class NavbarComponent {
   email: string = '';
   password: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private cd: ChangeDetectorRef) {}
 
   login() {
     if (!this.email || !this.password) {
       console.error('Email or password is missing.');
+      this.cd.detectChanges();
       return;
     }
 
@@ -39,6 +40,7 @@ export class NavbarComponent {
     this.authService.logout().then(() => {
       console.log('Logout successful');
       this.router.navigate(['/login']);
+      this.cd.detectChanges();
     }).catch((error) => {
       console.log('Logout failed:', error);
     });

@@ -3,29 +3,44 @@
 <div class="container">
     <form #flightForm="ngForm" (ngSubmit)="onSubmit(flightForm)" (ngModelChange)="onFormChange()">
         <div>
-          <label for="airline">Airline:</label>
-          <input type="text" name="airline" [(ngModel)]="formData.airline" required>
+            <label for="airline">Airline:</label>
+            <input type="text" name="airline" [(ngModel)]="formData.airline" required>
+            <div *ngIf="flightForm.controls.['airline']?.invalid && flightForm.controls.['airline']?.touched">
+            Airline is required
+            </div>
         </div>
         <div>
-          <label for="arrivalDate">Arrival Date:</label>
-          <input type="date" name="arrivalDate" [(ngModel)]="formData.arrivalDate" required>
+            <label for="arrivalDate">Arrival Date:</label>
+            <input type="date" name="arrivalDate" [(ngModel)]="formData.arrivalDate" required>
+            <div *ngIf="flightForm.controls.['arrivalDate']?.invalid && flightForm.controls.['arrivalDate']?.touched">
+            Arrival Date is required
+            </div>
         </div>
         <div>
-          <label for="arrivalTime">Arrival Time:</label>
-          <input type="time" name="arrivalTime" [(ngModel)]="formData.arrivalTime" required>
+            <label for="arrivalTime">Arrival Time:</label>
+            <input type="time" name="arrivalTime" [(ngModel)]="formData.arrivalTime" required>
+            <div *ngIf="flightForm.controls.['arrivalTime']?.invalid && flightForm.controls.['arrivalTime']?.touched">
+            Arrival Time is required
+            </div>
         </div>
         <div>
-          <label for="flightNumber">Flight Number:</label>
-          <input type="text" name="flightNumber" [(ngModel)]="formData.flightNumber" required>
+            <label for="flightNumber">Flight Number:</label>
+            <input type="text" name="flightNumber" [(ngModel)]="formData.flightNumber" required>
+            <div *ngIf="flightForm.controls.['flightNumber']?.invalid && flightForm.controls.['flightNumber']?.touched">
+            Flight Number is required
+            </div>
         </div>
         <div>
-          <label for="numOfGuests">Number of Guests:</label>
-          <input type="number" name="numOfGuests" [(ngModel)]="formData.numOfGuests" required>
+            <label for="numOfGuests">Number of Guests:</label>
+            <input type="number" name="numOfGuests" [(ngModel)]="formData.numOfGuests" required>
+            <div *ngIf="flightForm.controls.['numOfGuests']?.invalid && flightForm.controls.['numOfGuests']?.touched">
+            Number of Guests is required
+            </div>
         </div>
         <div>
-          <label for="comments">Comments:</label>
-          <textarea name="comments" [(ngModel)]="formData.comments"></textarea>
-        </div>
+            <label for="comments">Comments:</label>
+            <textarea name="comments" [(ngModel)]="formData.comments"></textarea>
+            </div>
         <button type="submit">Submit</button>
       </form>
 
