@@ -19,23 +19,27 @@ export class SignupComponent {
   errorMessage: string = '';
   successMessage: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {
+    console.log('SignupComponent loaded');
+  }
+
 
   signup() {
     if (!this.email || !this.password) {
-      this.errorMessage = ('Email or password is missing.');
+      this.errorMessage = 'Email or password is missing.';
       return;
     }
 
     this.authService.signup(this.email, this.password)
-    .then((result: any)) => {
-      this.successMessage = 'Signup successful! You can now log in.';
-      console.log('Signup successful', result);
-      this.router.navigate(['/login']);
-    }).catch((error: any) => {
-      this.errorMessage = error.message || 'Signup failed. Please try again.';
-      console.error('Signup failed:', error);
-    });
+      .then((result: any) => {
+        this.successMessage = 'Signup successful! You can now log in.';
+        console.log('Signup successful', result);
+        this.router.navigate(['/login']);
+      })
+      .catch((error: any) => {
+        this.errorMessage = error.message || 'Signup failed. Please try again.';
+        console.error('Signup failed:', error);
+      });
 
     setTimeout(() => {
       this.successMessage = '';

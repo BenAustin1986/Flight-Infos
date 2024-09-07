@@ -8,9 +8,13 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from './auth/auth.service';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from './navbar/navbar.component';
+import { AppRoutingModule } from './app-routing.module';
+import { AuthGuard } from './auth/auth.guard';
 import { initializeApp } from 'firebase/app';
-import { provideFirebaseApp } from '@angular/fire/app';
-import { getAuth, provideAuth } from '@angular/fire/auth';
+import { getAnalytics } from 'firebase/analytics';
+import firebase from '@firebase/app';
+
+(window as any).firebase = firebase;
 
 const firebaseConfig = {
   apiKey: "AIzaSyCvdTiyeiP5uT14k05VaulrDQo729mZPIc",
@@ -22,6 +26,9 @@ const firebaseConfig = {
   measurementId: "G-46J5V45WSQ"
 }
 
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,12 +36,13 @@ const firebaseConfig = {
   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     CommonModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     FormsModule,
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

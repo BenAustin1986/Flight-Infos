@@ -25,9 +25,11 @@ export class FlightDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    const savedData = localStorage.getItem('submissions');
-    if (savedData) {
-      this.submissions = JSON.parse(savedData);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const savedData = localStorage.getItem('submissions');
+      if (savedData) {
+        this.submissions = JSON.parse(savedData);
+      }
     }
   }
 
@@ -107,6 +109,8 @@ export class FlightDetailsComponent implements OnInit {
   }
 
   onFormChange() {
-    localStorage.setItem('submissions', JSON.stringify(this.submissions));
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('submissions', JSON.stringify(this.submissions));
+    }
   }
 }

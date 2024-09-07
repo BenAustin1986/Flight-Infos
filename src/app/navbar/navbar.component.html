@@ -7,6 +7,10 @@
       </li>
 
       <li class="nav-item" *ngIf="isLoggedIn$ | async">
+        <a class="nav-link" routerLink="/flight-details">Flight Details</a>
+      </li>
+
+      <li class="nav-item" *ngIf="isLoggedIn$ | async">
         <a class="nav-link" (click)="logout()">Logout</a>
       </li>
 
@@ -14,9 +18,7 @@
         <a class="nav-link" routerLink="/signup">Signup</a>
       </li>
 
-      <li class="nav-item" *ngIf="isLoggedIn$ | async">
-        <a class="nav-link" routerLink="/flight-details">Flight Details</a>
-      </li>
+
     </ul>
   </div>
 </nav>

@@ -1,49 +1,42 @@
-// src/app/auth/auth.guard.ts
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { map, take } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-
-  constructor(private authService: AuthService, private router: Router) {}
-
-  // canActivate(
-  //   route: ActivatedRouteSnapshot,
-  //   state: RouterStateSnapshot
-  // ): Observable<boolean> | boolean {
-  //   const publicRoutes = ['/login', '/signup'];
-
-  //   if (publicRoutes.includes(state.url)) {
-  //     return true;
-  //   }
-
-  canActivate(): Observable<boolean> {
-    return this.authService.isLoggedIn().pipe(
-      take(1),  // Take one value and complete
-      map(isLoggedIn => {
-        if (!isLoggedIn) {
-          this.router.navigate(['/login']);  // Redirect to login if not logged in
-          return false;
-        }
-        return true;
-      })
-    )
+  constructor(private authService: AuthService, private router: Router) {
+    console.log('AuthGuard check under "export class AuthGuard"');
   }
 
-    return this.authService.isLoggedIn().pipe(
-      take(1),
-      map(user => {
-        if (!user) {
-          this.router.navigate(['/login']);
-          return false;
-        }
-        return true;
-      })
-    );
+  canActivate(): boolean {
+    console.log('AuthGuard is running');
+    return true;
   }
-}
+
+  // canActivate(): Observable<boolean> {
+  //   console.log('AuthGuard under "canActivate"');
+
+  //   return this.authService.isLoggedIn().pipe(
+  //     take(1),
+  //     map(isLoggedIn => {
+  //       console.log('User logged in:', isLoggedIn);
+  //       if (!isLoggedIn) {
+  //         console.log('User not logged in, redirecting to login...');
+  //         this.router.navigate(['/login']);
+  //         return false;
+  //       }
+  //       return true;
+  //     }),
+  //     catchError(() => {
+  //       console.log('Error detected, redirecting to login...');
+  //       this.router.navigate(['/login']);
+  //       return of(false);
+  //     })
+  //   );
+  // }

@@ -23,16 +23,6 @@ export class AuthService {
             console.error('Error setting persistence:', error);
         }
     }
-
-    isLoggedIn(): Observable<boolean> {
-        return this.afAuth.authState.pipe(
-            map(user => {
-                console.log('user logged in status:', !!user)
-                return !!user
-            })
-        );
-    }
-
     signup(email: string, password: string): Promise<any> {
         return this.afAuth.createUserWithEmailAndPassword(email, password)
             .then((result: any) => {
@@ -44,7 +34,6 @@ export class AuthService {
                 throw error;
             });
     }
-
     login(email: string, password: string): Promise<any> {
         return this.afAuth.signInWithEmailAndPassword(email, password)
             .then(result => {
@@ -55,6 +44,14 @@ export class AuthService {
                 console.error('Login failed:', error);
                 throw error;
             });
+    }
+    isLoggedIn(): Observable<boolean> {
+        return this.afAuth.authState.pipe(
+            map(user => {
+                console.log('Current user:', user);
+                return !!user;
+            })
+        );
     }
 
     logout() {
